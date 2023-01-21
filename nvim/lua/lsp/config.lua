@@ -21,6 +21,8 @@ local on_attach = function(_, bufnr)
   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<leader>d', '<cmd>Telescope lsp_document_symbols<cr>', bufopts)
+  -- show diagnostic info in popup window
+  vim.keymap.set('n', '<leader>ll', vim.diagnostic.open_float, bufopts)
   vim.keymap.set('n', '<leader>lk', vim.diagnostic.goto_prev, bufopts)
   vim.keymap.set('n', '<leader>lj', vim.diagnostic.goto_next, bufopts)
 end
@@ -29,6 +31,20 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local lsp_config = {
   capabilities = capabilities,
   on_attach = function(_, bufnr)
+    -- vim.api.nvim_create_autocmd("CursorHold", {
+    --   buffer = bufnr,
+    --   callback = function()
+    --     local opts = {
+    --       focusable = false,
+    --       close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+    --       border = 'rounded',
+    --       source = 'always',
+    --       prefix = ' ',
+    --       scope = 'cursor',
+    --     }
+    --     vim.diagnostic.open_float(nil, opts)
+    --   end
+    -- })
     on_attach(_, bufnr)
   end
 }
@@ -70,5 +86,17 @@ vim.keymap.set('n', '<leader>a', '<cmd>TypescriptAddMissingImports<cr>')
 
 vim.diagnostic.config({
   virtual_text = false, -- disable virtual text
-  sort_severity = true,
+  severity_sort = true,
+  underline = false,
+  signs = true,
+  update_in_insert = false,
+  float = {
+    source = "always",
+  }
 })
+
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
