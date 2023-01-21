@@ -31,6 +31,9 @@ opt.termguicolors = true
 opt.ignorecase = true
 opt.smartcase = true
 
+-- system clipboard
+opt.clipboard:append('unnamedplus')
+
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
     vim.highlight.on_yank({
@@ -39,3 +42,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     })
   end
 })
+
+-- You will likely want to reduce updatetime which affects CursorHold
+-- note: this setting is global and should be set only once
+vim.o.updatetime = 250
+vim.cmd([[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]])

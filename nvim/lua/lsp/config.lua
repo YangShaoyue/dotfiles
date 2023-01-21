@@ -21,6 +21,8 @@ local on_attach = function(_, bufnr)
   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<leader>d', '<cmd>Telescope lsp_document_symbols<cr>', bufopts)
+  vim.keymap.set('n', '<leader>lk', vim.diagnostic.goto_prev, bufopts)
+  vim.keymap.set('n', '<leader>lj', vim.diagnostic.goto_next, bufopts)
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -65,3 +67,8 @@ require('mason-lspconfig').setup_handlers({
 
 vim.keymap.set('n', '<leader>o', '<cmd>TypescriptOrganizeImports<cr>')
 vim.keymap.set('n', '<leader>a', '<cmd>TypescriptAddMissingImports<cr>')
+
+vim.diagnostic.config({
+  virtual_text = false, -- disable virtual text
+  sort_severity = true,
+})
