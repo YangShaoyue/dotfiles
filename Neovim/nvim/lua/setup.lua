@@ -25,6 +25,7 @@ require('lazy').setup({
     },
     -- tag = 'nightly' -- optional, updated every week. (see issue #1193)
   },
+
   'sainnhe/everforest',
 
   'windwp/nvim-autopairs',
