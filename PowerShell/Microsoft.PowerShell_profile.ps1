@@ -5,7 +5,7 @@ echo '$env:https_proxy="http://127.0.0.1:7890"'
 # Set-PoshPrompt -Theme pure
 oh-my-posh --init --shell pwsh --config $env:POSH_THEMES_PATH/pure.omp.json | Invoke-Expression
 
-Import-Module ZLocation; Add-Content -Value "`r`n`r`nImport-Module ZLocation`r`n" -Encoding utf8 -Path $PROFILE.CurrentUserAllHosts
+# Import-Module ZLocation; Add-Content -Value "`r`n`r`nImport-Module ZLocation`r`n" -Encoding utf8 -Path $PROFILE.CurrentUserAllHosts
 # Import the Chocolatey Profile that contains the necessary code to enable
 # tab-completions to function for `choco`.
 # Be aware that if you are missing these lines from your profile, tab completion
@@ -23,6 +23,8 @@ Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
 Import-Module posh-git # git的自动补全
+
+Invoke-Expression (& { (lua "C:/Program Files/z.lua-1.8.16/z.lua" --init powershell) -join "`n" })
 
 # Remove-Item alias:curl
 
