@@ -1,7 +1,7 @@
 echo '$env:http_proxy="http://127.0.0.1:7890"'
 echo '$env:https_proxy="http://127.0.0.1:7890"'
 
-Import-Module oh-my-posh
+# Import-Module oh-my-posh
 # Set-PoshPrompt -Theme pure
 oh-my-posh --init --shell pwsh --config $env:POSH_THEMES_PATH/pure.omp.json | Invoke-Expression
 
@@ -11,10 +11,10 @@ Import-Module ZLocation; Add-Content -Value "`r`n`r`nImport-Module ZLocation`r`n
 # Be aware that if you are missing these lines from your profile, tab completion
 # for `choco` will not function.
 # See https://ch0.co/tab-completion for details.
-$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-if (Test-Path($ChocolateyProfile)) {
-  Import-Module "$ChocolateyProfile"
-}
+# $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+# if (Test-Path($ChocolateyProfile)) {
+#   Import-Module "$ChocolateyProfile"
+# }
 
 # Tab键会出现自动补全菜单
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
@@ -24,7 +24,7 @@ Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
 Import-Module posh-git # git的自动补全
 
-Remove-Item alias:curl
+# Remove-Item alias:curl
 
 function get-gitstatus() {
   git status
