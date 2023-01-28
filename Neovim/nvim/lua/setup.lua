@@ -68,5 +68,11 @@ require('lazy').setup({
   -- {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'}
 
   'gpanders/editorconfig.nvim',
-  'lewis6991/gitsigns.nvim'
+  'lewis6991/gitsigns.nvim',
+
+  {
+    "iamcco/markdown-preview.nvim",
+    build = "cd app && npm install",
+    init = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" },
+  }
 })
