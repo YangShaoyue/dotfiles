@@ -26,4 +26,4 @@ Neovim config
 ## PowerShell
 Windows Terminal PowerShell config
 
-The config file (Microsoft.PowerShell_profile.ps1) path of PowerShell 5 located in `C:\Users\[username]\Documents\WindowsPowerShell`，different from PowerShell 7.
+The config file (Microsoft.PowerShell_profile.ps1) path of PowerShell 5 is located in `C:\Users\[username]\Documents\WindowsPowerShell`，different from PowerShell 7.
