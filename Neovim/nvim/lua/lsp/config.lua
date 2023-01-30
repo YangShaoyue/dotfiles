@@ -87,7 +87,7 @@ vim.keymap.set('n', '<leader>a', '<cmd>TypescriptAddMissingImports<cr>')
 vim.diagnostic.config({
   virtual_text = false, -- disable virtual text
   severity_sort = true,
-  underline = false,
+  underline = true,
   signs = true,
   update_in_insert = false,
   float = {
