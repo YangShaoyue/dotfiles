@@ -38,7 +38,7 @@ require('lazy').setup({
   },
 
   {
-    'nvim-telescope/telescope.nvim', tag = '0.1.0',
+    'nvim-telescope/telescope.nvim', version = '0.1.0',
   -- or                            , branch = '0.1.x',
      dependencies = { {'nvim-lua/plenary.nvim'} }
   },
@@ -74,5 +74,7 @@ require('lazy').setup({
     "iamcco/markdown-preview.nvim",
     build = "cd app && npm install",
     init = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" },
-  }
+  },
+
+  {'akinsho/bufferline.nvim', version = "v3.*", dependencies = 'nvim-tree/nvim-web-devicons'}
 })
