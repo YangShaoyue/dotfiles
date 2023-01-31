@@ -91,7 +91,20 @@ vim.diagnostic.config({
   signs = true,
   update_in_insert = false,
   float = {
-    source = "always",
+    -- source = "always",
+    format = function(diagnostic)
+      if diagnostic.source == 'eslint' or diagnostic.source == 'eslint_d' then
+        return string.format(
+          '%s %s(%s)',
+          diagnostic.message,
+          diagnostic.source,
+          -- shows the name of the rule
+          -- diagnostic.user_data.lsp.code
+          diagnostic.code
+        )
+      end
+      return string.format('%s [%s]', diagnostic.message, diagnostic.source)
+    end,
   }
 })
 
