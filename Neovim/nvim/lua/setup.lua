@@ -76,5 +76,5 @@ require('lazy').setup({
     init = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" },
   },
 
-  {'akinsho/bufferline.nvim', version = "v3.*", dependencies = 'nvim-tree/nvim-web-devicons'}
+  -- {'akinsho/bufferline.nvim', version = "v3.*", dependencies = 'nvim-tree/nvim-web-devicons'}
 })
