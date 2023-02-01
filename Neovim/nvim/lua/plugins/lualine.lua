@@ -20,7 +20,14 @@ require('lualine').setup {
   sections = {
     lualine_a = {'mode'},
     lualine_b = {'filename'},
-    lualine_c = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {
+      'branch',
+      'diff',
+      {
+        'diagnostics',
+        symbols = {error = ' ', warn = ' ', info = ' ', hint = ' '},
+      }
+    },
     lualine_x = {'encoding', 'fileformat'},
     lualine_y = {'filetype'},
     lualine_z = {'location'}
