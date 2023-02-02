@@ -27,6 +27,10 @@ require('lazy').setup({
   },
 
   'sainnhe/everforest',
+  {
+    "jesseleite/nvim-noirbuddy",
+    dependencies = { "tjdevries/colorbuddy.nvim", branch = "dev" }
+  },
 
   'windwp/nvim-autopairs',
   'mg979/vim-visual-multi',
@@ -76,5 +80,6 @@ require('lazy').setup({
     init = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" },
   },
 
-  -- {'akinsho/bufferline.nvim', version = "v3.*", dependencies = 'nvim-tree/nvim-web-devicons'}
+  -- {'akinsho/bufferline.nvim', version = "v3.*", dependencies = 'nvim-tree/nvim-web-devicons'},
+  'norcalli/nvim-colorizer.lua',
 })
