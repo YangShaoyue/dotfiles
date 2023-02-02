@@ -154,13 +154,13 @@ local function get_native_lsp()
 end
 
 -- Get the status of the compiler, if applicable.
-local function get_compiler_status()
-  local filetype = get_current_filetype()
-  if filetype == 'tex' then
-      return ''
-  end
-  return ''
-end
+-- local function get_compiler_status()
+--   local filetype = get_current_filetype()
+--   if filetype == 'tex' then
+--       return ''
+--   end
+--   return ''
+-- end
 
 -- Display the difference in commits between local and head.
 -- local Job = require 'plenary.job'
@@ -283,18 +283,18 @@ require 'lualine'.setup {
       },
     },
     lualine_y = {
-      {
-        get_compiler_status,
-        icon = {
-          ',',
-          align = 'left',
-          color = {
-            fg = c.orange,
-            gui = 'bold'
-          }
-        },
-        separator = ''
-      },
+      -- {
+      --   get_compiler_status,
+      --   icon = {
+      --     ',',
+      --     align = 'left',
+      --     color = {
+      --       fg = c.orange,
+      --       gui = 'bold'
+      --     }
+      --   },
+      --   separator = ''
+      -- },
       {
         get_native_lsp,
         icon = {
