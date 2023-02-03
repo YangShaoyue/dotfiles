@@ -27,10 +27,6 @@ require('lazy').setup({
   },
 
   'sainnhe/everforest',
-  {
-    "jesseleite/nvim-noirbuddy",
-    dependencies = { "tjdevries/colorbuddy.nvim", branch = "dev" }
-  },
 
   'windwp/nvim-autopairs',
   'mg979/vim-visual-multi',
