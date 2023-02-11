@@ -27,3 +27,26 @@ Neovim config
 Windows Terminal PowerShell config
 
 The config file (Microsoft.PowerShell_profile.ps1) path of PowerShell 5 is located in `C:\Users\[username]\Documents\WindowsPowerShell`，different from PowerShell 7.
+
+## NerdFonts
+> Just the collection of open-source fonts that I currently used.
+
+Some fonts don't have nerd font files in their github repos, I used
+[font-patcher](https://github.com/ryanoasis/nerd-fonts) tool to generate corresponding nerd
+font version.
+
+- Clone repo with param `--depth 1`
+
+  `git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git`
+
+- Install python font-forge package
+
+  `sudo apt install python3-fontforge`
+
+- In nerd-fonts directory
+
+  `./font-patcher [source-font-file] -s -c -out [output dir]`
+
+### Links
+- [FantasqueSans Mono](https://github.com/belluzj/fantasque-sans)
+- [MapleMono-SC](https://github.com/subframe7536/Maple-font)
