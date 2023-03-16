@@ -37,6 +37,10 @@ function get-gitdiff() {
 function get-gitpush() {
   git push
 }
+function get-gitcheckout {
+  git checkout
+}
 Set-Alias -Name gst -Value get-gitstatus
 Set-Alias -Name gd -Value get-gitdiff
 Set-Alias -Name ggpush -Value get-gitpush
+Set-Alias -Name gco -Value get-gitcheckout
