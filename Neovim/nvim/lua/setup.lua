@@ -23,7 +23,7 @@ require('lazy').setup({
     dependencies = {
       'nvim-tree/nvim-web-devicons', -- optional, for file icons
     },
-    tag = 'nightly' -- optional, updated every week. (see issue #1193)
+    -- tag = 'nightly' -- optional, updated every week. (see issue #1193)
   },
 
   'sainnhe/everforest',
@@ -40,7 +40,7 @@ require('lazy').setup({
   {
     'nvim-telescope/telescope.nvim', version = '0.1.0',
   -- or                            , branch = '0.1.x',
-     dependencies = { {'nvim-lua/plenary.nvim'} }
+     dependencies = { 'nvim-lua/plenary.nvim' }
   },
 
   'hrsh7th/cmp-nvim-lsp',
@@ -78,4 +78,15 @@ require('lazy').setup({
 
   -- {'akinsho/bufferline.nvim', version = "v3.*", dependencies = 'nvim-tree/nvim-web-devicons'},
   'norcalli/nvim-colorizer.lua',
+
+  -- DAP
+  {
+    'microsoft/vscode-js-debug',
+    lazy = true,
+    build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+  },
+  'mfussenegger/nvim-dap',
+  'mxsdev/nvim-dap-vscode-js',
+  { 'rcarriga/nvim-dap-ui', dependencies = { 'mfussenegger/nvim-dap' } },
+  'theHamsta/nvim-dap-virtual-text',
 })
