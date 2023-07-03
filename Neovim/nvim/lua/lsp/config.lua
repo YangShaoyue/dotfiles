@@ -25,6 +25,7 @@ local on_attach = function(_, bufnr)
   vim.keymap.set('n', '<leader>ll', vim.diagnostic.open_float, bufopts)
   vim.keymap.set('n', '<leader>lk', vim.diagnostic.goto_prev, bufopts)
   vim.keymap.set('n', '<leader>lj', vim.diagnostic.goto_next, bufopts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ll', '<cmd>lua vim.diagnostic.open_float()<CR>', bufopts)
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -53,17 +54,17 @@ require('mason-lspconfig').setup_handlers({
   function(server_name)
     require('lspconfig')[server_name].setup(lsp_config)
   end,
-  -- sumneko_lua = function()
-  --   require('lspconfig').sumneko_lua.setup(vim.tbl_extend('force', lsp_config, {
-  --     settings = {
-  --       Lua = {
-  --         diagnostics = {
-  --           globals = {'vim'}
-  --         }
-  --       }
-  --     }
-  --   }))
-  -- end,
+  lua_ls = function()
+    require('lspconfig').lua_ls.setup(vim.tbl_extend('force', lsp_config, {
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = {'vim'}
+          }
+        }
+      }
+    }))
+  end,
   tsserver = function()
     require('typescript').setup({
       server = vim.tbl_extend('force', lsp_config, {
