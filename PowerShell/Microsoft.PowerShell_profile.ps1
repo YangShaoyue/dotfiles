@@ -16,6 +16,8 @@ oh-my-posh --init --shell pwsh --config $env:POSH_THEMES_PATH/pure.omp.json | In
 #   Import-Module "$ChocolateyProfile"
 # }
 
+$OutputEncoding = [console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding
+
 # Tab键会出现自动补全菜单
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 # 上下方向键箭头，搜索历史中进行自动补全
@@ -37,7 +39,7 @@ function get-gitdiff() {
 function get-gitpush() {
   git push
 }
-function get-gitcheckout {
+function get-gitcheckout() {
   git checkout
 }
 Set-Alias -Name gst -Value get-gitstatus

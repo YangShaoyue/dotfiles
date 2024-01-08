@@ -54,8 +54,6 @@ require('lazy').setup({
   'saadparwaiz1/cmp_luasnip',
   'rafamadriz/friendly-snippets',
 
-  'jose-elias-alvarez/typescript.nvim',
-  'jose-elias-alvarez/null-ls.nvim',
   'nvim-treesitter/nvim-treesitter',
 
   'windwp/nvim-ts-autotag',
