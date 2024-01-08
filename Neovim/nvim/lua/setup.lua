@@ -87,4 +87,6 @@ require('lazy').setup({
   'mxsdev/nvim-dap-vscode-js',
   { 'rcarriga/nvim-dap-ui', dependencies = { 'mfussenegger/nvim-dap' } },
   'theHamsta/nvim-dap-virtual-text',
+
+  'folke/flash.nvim',
 })
