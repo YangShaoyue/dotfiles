@@ -1,8 +1,11 @@
-return {
-  -- "folke/flash.nvim",
+require("flash").setup({
   event = "VeryLazy",
   ---@type Flash.Config
-  opts = {},
+  opts = {
+    modes = {
+      char = { enabled = false }
+    }
+  },
   -- stylua: ignore
   keys = {
     { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
@@ -10,5 +13,19 @@ return {
     { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
     { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
     { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    -- { "*", mode = { "n" }, function() require("flash").jump(
+    --   {
+    --     pattern = ".",
+    --     search = {
+    --       mode = function(pattern)
+    --         if pattern:sub(1, 1) == "." then
+    --           pattern = pattern:sub(2)
+    --         end
+    --         return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern)
+    --       end,
+    --     },
+    --     jump = { pos = "range" },
+    --   }
+    -- ) end, desc = "Toggle Flash Search" },
   },
-}
+})
