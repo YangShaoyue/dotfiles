@@ -1,3 +1,4 @@
-require('nvim-autopairs').setup({
-  disable_filetype = { 'TelescopePrompt', 'vim' }
-})
+return {
+  "windwp/nvim-autopairs",
+  disable_filetype = { "TelescopePrompt", "vim" },
+}

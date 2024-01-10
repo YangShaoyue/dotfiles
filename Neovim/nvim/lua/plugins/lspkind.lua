@@ -1,4 +1,5 @@
-require('lspkind').init({
+return {
+  'onsails/lspkind-nvim',
   mode = 'symbol_text',
   preset = 'codicons',
   symbol_map = {
@@ -28,4 +29,4 @@ require('lspkind').init({
     Operator = "",
     TypeParameter = ""
   },
-})
+}
