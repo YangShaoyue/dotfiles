@@ -30,19 +30,22 @@ Invoke-Expression (& { (lua "C:/Program Files/z.lua-1.8.16/z.lua" --init powersh
 
 # Remove-Item alias:curl
 
-function get-gitstatus() {
+function get-gitstatus {
   git status
 }
-function get-gitdiff() {
+Set-Alias -Name gst -Value get-gitstatus
+
+function get-gitdiff {
   git diff
 }
-function get-gitpush() {
+Set-Alias -Name gd -Value get-gitdiff
+
+function get-gitpush {
   git push
 }
-function get-gitcheckout() {
-  git checkout
-}
-Set-Alias -Name gst -Value get-gitstatus
-Set-Alias -Name gd -Value get-gitdiff
 Set-Alias -Name ggpush -Value get-gitpush
+
+function get-gitcheckout {
+  & git checkout $args
+}
 Set-Alias -Name gco -Value get-gitcheckout
