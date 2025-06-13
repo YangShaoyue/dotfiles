@@ -72,7 +72,7 @@ return {
         "jsonls",
         "pyright",
         "yamlls",
-        'tsserver',
+        'ts_ls',
         'graphql',
         'rust_analyzer'
       },
@@ -93,10 +93,10 @@ return {
           }
         }))
       end,
-      tsserver = function()
+      ts_ls = function()
         -- capabilities = capabilities
         -- on_attach = on_attach
-        require('lspconfig').tsserver.setup({
+        require('lspconfig').ts_ls.setup({
           server = vim.tbl_extend('force', lsp_config, {
             on_attach = function(_, bufnr)
               on_attach(_, bufnr)

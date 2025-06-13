@@ -95,7 +95,7 @@ return {
     -- Get the lsp of the current buffer, when using native lsp.
     local function get_native_lsp()
       local buf_ft = get_current_filetype()
-      local clients = vim.lsp.get_active_clients()
+      local clients = vim.lsp.get_clients()
       if next(clients) == nil then
         return 'None'
       end
