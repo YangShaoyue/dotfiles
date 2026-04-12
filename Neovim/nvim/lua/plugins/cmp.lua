@@ -1,164 +1,92 @@
+-- blink.cmp 配置
 return {
-  "hrsh7th/nvim-cmp",
-  dependencies = {
-    "hrsh7th/cmp-buffer", -- source for text in buffer
-    "hrsh7th/cmp-path", -- source for file system paths
-    'hrsh7th/cmp-cmdline',
-    "L3MON4D3/LuaSnip", -- snippet engine
-    "saadparwaiz1/cmp_luasnip", -- for autocompletion
-    "rafamadriz/friendly-snippets", -- useful snippets
-    "onsails/lspkind.nvim", -- vs-code like pictograms
-  },
-  config = function()
-    local cmp = require('cmp')
-    local luasnip = require('luasnip')
-    local lspkind = require('lspkind')
+  'saghen/blink.cmp',
+  -- optional: provides snippets for the snippet source
+  dependencies = { 'rafamadriz/friendly-snippets' },
 
-    require("luasnip/loaders/from_vscode").lazy_load()
+  -- use a release tag to download pre-built binaries
+  version = '1.*',
+  -- AND/OR build from source
+  -- build = 'cargo build --release',
+  -- If you use nix, you can build from source with:
+  -- build = 'nix run .#build-plugin',
 
-    -- local ls = require('luasnip')
-    -- local s = ls.snippet
-    -- local t = ls.text_node
-    -- local i = ls.insert_node
+  ---@module 'blink.cmp'
+  ---@type blink.cmp.Config
+  opts = {
+    -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
+    -- 'super-tab' for mappings similar to vscode (tab to accept)
+    -- 'enter' for enter to accept
+    -- 'none' for no mappings
     --
-    -- ls.add_snippets('javascriptreact', {
-    --   s('log', {
-    --     t('console.log('),
-    --     i(1, ''),
-    --     t(','),
-    --     i(2, ''),
-    --     t(')'),
-    --   })
-    -- })
+    -- All presets have the following mappings:
+    -- C-space: Open menu or open docs if already open
+    -- C-n/C-p or Up/Down: Select next/previous item
+    -- C-e: Hide menu
+    -- C-k: Toggle signature help (if signature.enabled = true)
     --
-    -- ls.add_snippets('javascript', {
-    --   s('log', {
-    --     t('console.log('),
-    --     i(1, ''),
-    --     t(','),
-    --     i(2, ''),
-    --     t(')'),
-    --   })
-    -- })
+    -- See :h blink-cmp-config-keymap for defining your own keymap
+    keymap = {
+      preset = 'none', -- 我们手动定义所有按键，避免冲突
 
-    local has_words_before = function()
-      unpack = unpack or table.unpack
-      local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-      return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-    end
+      ['<C-Space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+      ['<C-c>'] = { 'hide', 'fallback' },
+      ['<CR>'] = { 'accept', 'fallback' },
 
-    cmp.setup({
-      snippet = {
-        -- REQUIRED - you must specify a snippet engine
-        expand = function(args)
-          luasnip.lsp_expand(args.body) -- For `luasnip` users.
+      -- Tab 键逻辑：如果补全可见则选下一个，如果能跳转 snippet 则跳转，否则 fallback
+      ['<Tab>'] = {
+        function(cmp)
+          if cmp.is_visible() then
+            return cmp.select_next()
+          elseif cmp.snippet_active() then
+            return cmp.snippet_forward()
+          end
         end,
+        'fallback',
       },
-      mapping = cmp.mapping.preset.insert({
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-c>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        ['<c-d>'] = cmp.mapping(function(fallback)
-          if luasnip.jumpable(1) then
-            luasnip.jump(1)
-          else
-            fallback()
+      ['<S-Tab>'] = {
+        function(cmp)
+          if cmp.is_visible() then
+            return cmp.select_prev()
+          elseif cmp.snippet_active() then
+            return cmp.snippet_backward()
           end
-        end, { 'i', 's' }),
-        ['<c-b>'] = cmp.mapping(function(fallback)
-          if luasnip.jumpable(-1) then
-            luasnip.jump(-1)
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
-        ["<Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          elseif luasnip.expand_or_jumpable() then
-            luasnip.expand_or_jump()
-          elseif has_words_before() then
-            cmp.complete()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item()
-          elseif luasnip.jumpable(-1) then
-            luasnip.jump(-1)
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-      }),
-      sources = cmp.config.sources({
-        { name = 'nvim_lsp',
-          entry_filter = function(entry)
-            return require('cmp.types').lsp.CompletionItemKind[entry:get_kind()] ~= 'Text'
-          end
-        },
-        { name = 'luasnip' }, -- For luasnip users.
-        { name = 'buffer' },
-        { name = 'path' },
-      }),
-      formatting = {
-        format = lspkind.cmp_format({
-          with_text = true, -- do not show text alongside icons
-          maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-          before = function (entry, vim_item)
-            -- Source 显示提示来源
-            vim_item.menu = "["..string.upper(entry.source.name).."]"
-            return vim_item
-          end
-        })
+        end,
+        'fallback',
       },
-      -- formatting = {
-      --   format = function(entry, vim_item)
-      --     if vim.tbl_contains({ 'path' }, entry.source.name) then
-      --       local icon, hl_group = require('nvim-web-devicons').get_icon(entry:get_completion_item().label)
-      --       if icon then
-      --         vim_item.kind = icon
-      --         vim_item.kind_hl_group = hl_group
-      --         return vim_item
-      --       end
-      --     end
-      --     return lspkind.cmp_format({ with_text = false })(entry, vim_item)
-      --   end
-      -- }
-    })
 
-    -- Set configuration for specific filetype.
-    cmp.setup.filetype('gitcommit', {
-      sources = cmp.config.sources({
-        { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-      }, {
-        { name = 'buffer' },
-      })
-    })
+      -- 对应你原配置中的 <c-d> 和 <c-b> 的 Luasnip 跳转逻辑
+      -- blink 会自动检测你配置的 snippet 引擎
+      ['<C-d>'] = { 'snippet_forward', 'fallback' },
+      ['<C-b>'] = { 'snippet_backward', 'fallback' },
 
-    -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-    cmp.setup.cmdline({ '/', '?' }, {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = {
-        { name = 'buffer' }
-      }
-    })
+      -- 其他常用导航
+      ['<Up>'] = { 'select_prev', 'fallback' },
+      ['<Down>'] = { 'select_next', 'fallback' },
+      ['<C-p>'] = { 'select_prev', 'fallback' },
+      ['<C-n>'] = { 'select_next', 'fallback' },
+    },
+   appearance = {
+      -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+      -- Adjusts spacing to ensure icons are aligned
+      nerd_font_variant = 'mono'
+    },
 
-    -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-    cmp.setup.cmdline(':', {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = cmp.config.sources({
-        { name = 'path' }
-      }, {
-        { name = 'cmdline' }
-      })
-    })
+    -- (Default) Only show the documentation popup when manually triggered
+    completion = { documentation = { auto_show = false } },
 
-    vim.cmd([[
-    set completeopt=menuone,noinsert,noselect
-    highlight! default link CmpItemKind CmpItemMenuDefault
-    ]])
-  end
+    -- Default list of enabled providers defined so that you can extend it
+    -- elsewhere in your config, without redefining it, due to `opts_extend`
+    sources = {
+      default = { 'lsp', 'path', 'snippets', 'buffer' },
+    },
+
+    -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
+    -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
+    -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
+    --
+    -- See the fuzzy documentation for more information
+    fuzzy = { implementation = "prefer_rust_with_warning" }
+  },
+  opts_extend = { "sources.default" }
 }

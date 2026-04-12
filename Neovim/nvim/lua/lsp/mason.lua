@@ -5,7 +5,7 @@ return {
   },
   config = function()
     -- import lspconfig plugin
-    local capabilities = require('cmp_nvim_lsp').default_capabilities()
+    local capabilities = require('blink.cmp').get_lsp_capabilities()
     -- Use an on_attach function to only map the following keys
     -- after the language server attaches to the current buffer
     local on_attach = function(_, bufnr)
