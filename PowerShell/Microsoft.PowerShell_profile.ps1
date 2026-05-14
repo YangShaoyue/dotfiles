@@ -26,7 +26,7 @@ Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 
 Import-Module posh-git # git的自动补全
 
-Invoke-Expression (& { (lua "C:/Program Files/z.lua-1.8.16/z.lua" --init powershell) -join "`n" })
+Invoke-Expression (& { (lua "C:/Program Files/zlua/z.lua" --init powershell) -join "`n" })
 
 # Remove-Item alias:curl
 
