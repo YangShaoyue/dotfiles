@@ -27,12 +27,18 @@ return {
     --
     -- See :h blink-cmp-config-keymap for defining your own keymap
     keymap = {
-      preset = 'none', -- 我们手动定义所有按键，避免冲突
+      preset = 'super-tab', -- 我们手动定义所有按键，避免冲突
 
       ['<C-Space>'] = { 'show', 'show_documentation', 'hide_documentation' },
       ['<C-c>'] = { 'hide', 'fallback' },
-      ['<CR>'] = { 'accept', 'fallback' },
-
+      ['<CR>'] = {
+        function(cmp)
+          if cmp.is_visible() and cmp.get_selected_item() then
+            return cmp.accept()
+          end
+        end,
+        'fallback',
+      },
       -- Tab 键逻辑：如果补全可见则选下一个，如果能跳转 snippet 则跳转，否则 fallback
       ['<Tab>'] = {
         function(cmp)
