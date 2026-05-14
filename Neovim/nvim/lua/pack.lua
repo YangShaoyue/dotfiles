@@ -51,8 +51,8 @@ local specs = {
 
   -- Completion
   "https://github.com/rafamadriz/friendly-snippets",
-  "saghen/blink.lib",
-  { src = "saghen/blink.cmp", version = "main" },
+  "https://github.com/saghen/blink.lib",
+  { src = "https://github.com/saghen/blink.cmp", version = "main" },
   "https://github.com/onsails/lspkind-nvim",
 
   -- LSP
@@ -134,12 +134,35 @@ require("plugins.tree").config()
 require("plugins.telescope").config()
 require("plugins.toggleterm").config()
 
--- blink.cmp: build native fuzzy library (non-fatal if cargo unavailable)
+-- blink.cmp: build native fuzzy library (non-fatal if build fails)
+-- The build step copies the compiled dll to site/lib/, ensure it exists.
+vim.fn.mkdir(vim.fn.stdpath("data") .. "/site/lib", "p")
+
+-- Workaround for blink.cmp v2 Windows bug: cargo produces blink_cmp_fuzzy.dll
+-- but the build script expects libblink_cmp_fuzzy.dll (Linux lib prefix).
+local function fix_windows_dll_name()
+  local target_dir = opt_dir .. "/blink.cmp/target/release"
+  local src = target_dir .. "/blink_cmp_fuzzy.dll"
+  local dst = target_dir .. "/libblink_cmp_fuzzy.dll"
+  if vim.fn.filereadable(src) == 1 and vim.fn.filereadable(dst) == 0 then
+    vim.fn.rename(src, dst)
+    return true
+  end
+  return vim.fn.filereadable(dst) == 1
+end
+
 local ok, err = pcall(function()
   require("blink.cmp").build():wait(60000)
 end)
 if not ok then
-  vim.notify("blink.cmp: native build skipped (cargo not found). Using Lua fuzzy fallback.", vim.log.levels.WARN)
+  -- If build failed, try the Windows DLL name fix and re-run
+  if fix_windows_dll_name() then
+    pcall(function()
+      require("blink.cmp").build():wait(60000)
+    end)
+  else
+    vim.notify("blink.cmp: native build failed: " .. tostring(err), vim.log.levels.WARN)
+  end
 end
 
 require("plugins.cmp").config()
