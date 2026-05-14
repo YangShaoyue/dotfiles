@@ -1,10 +1,20 @@
-local dap = require('dap');
+local M = {}
+local _loaded = false
 
-vim.keymap.set({"i", "n", "v"}, "<F5>", "<cmd>lua require'dap'.continue()<CR>", {silent = true, noremap = true, buffer = bufnr})
-vim.keymap.set({"i", "n", "v"}, "<F10>", "<cmd>lua require'dap'.step_over()<CR>", {silent = true, noremap = true, buffer = bufnr})
-vim.keymap.set({"i", "n", "v"}, "<F11>", "<cmd>lua require'dap'.step_into()<CR>", {silent = true, noremap = true, buffer = bufnr})
-vim.keymap.set({"i", "n", "v"}, "<F12>", "<cmd>lua require'dap'.step_out()<CR>", {silent = true, noremap = true, buffer = bufnr})
-vim.keymap.set({"i", "n", "v"}, "<F9>", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", {silent = true, noremap = true, buffer = bufnr})
+function M.setup()
+  if _loaded then return end
+  _loaded = true
 
-require('debug/javascript')
-require('debug/ui')
+  -- Packadd all DAP plugins (they were registered with load=function() end)
+  vim.cmd.packadd("nvim-dap")
+  vim.cmd.packadd("nvim-dap-ui")
+  vim.cmd.packadd("nvim-dap-vscode-js")
+  vim.cmd.packadd("nvim-dap-virtual-text")
+  -- vscode-js-debug is a CLI tool dependency, not a Lua module
+
+  -- Apply DAP configurations
+  require("debug.javascript").config()
+  require("debug.ui").config()
+end
+
+return M

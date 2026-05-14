@@ -1,6 +1,7 @@
-return {
-  'gpanders/editorconfig.nvim',
-  config = function()
-    vim.g.editorconfig_enable = true
-  end
-}
+local M = {}
+
+function M.config()
+  vim.g.editorconfig_enable = true
+end
+
+return M

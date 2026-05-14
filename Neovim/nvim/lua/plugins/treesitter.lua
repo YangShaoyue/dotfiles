@@ -1,36 +1,25 @@
-return {
-  "nvim-treesitter/nvim-treesitter",
-  dependencies = {
-    "windwp/nvim-ts-autotag",
-  },
-  config = function()
-    -- import nvim-treesitter plugin
-    local treesitter = require("nvim-treesitter.configs")
+local M = {}
 
-    -- configure treesitter
-    treesitter.setup({
-      -- A list of parser names, or "all"
-      ensure_installed = { "tsx", "lua", "rust", "javascript", "html", "json", "graphql", "regex", "vim", "css" },
+function M.config()
+  local treesitter = require("nvim-treesitter.config")
 
-      -- Install parsers synchronously (only applied to `ensure_installed`)
-      sync_install = false,
+  treesitter.setup({
+    ensure_installed = { "tsx", "lua", "rust", "javascript", "html", "json", "graphql", "regex", "vim", "css" },
+    sync_install = false,
+    auto_install = false,
+    highlight = {
+      enable = true,
+      disable = {},
+      additional_vim_regex_highlighting = false,
+    },
+    indent = {
+      enable = true,
+      disbale = {}
+    },
+    autotag = {
+      enable = true
+    }
+  })
+end
 
-      -- Automatically install missing parsers when entering buffer
-      -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-      auto_install = false,
-
-      highlight = {
-        enable = true,
-        disable = {},
-        additional_vim_regex_highlighting = false,
-      },
-      indent = {
-        enable = true,
-        disbale = {}
-      },
-      autotag = {
-        enable = true
-      }
-    })
-  end
-}
+return M

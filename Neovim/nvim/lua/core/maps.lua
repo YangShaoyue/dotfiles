@@ -26,3 +26,17 @@ keymap.set("n", "<A-l>", "<C-w>l")
 keymap.set("n", "<A-k>", "<C-w>k")
 
 keymap.set("n", "<leader>nh", ":nohl<CR>")
+
+-- DAP triggers: lazily load and configure debug plugins on first use
+local debug_trigger = function(action)
+  return function()
+    require("debug").setup()
+    action()
+  end
+end
+
+keymap.set({ "i", "n", "v" }, "<F5>",  debug_trigger(function() require("dap").continue() end),          { silent = true })
+keymap.set({ "i", "n", "v" }, "<F9>",  debug_trigger(function() require("dap").toggle_breakpoint() end), { silent = true })
+keymap.set({ "i", "n", "v" }, "<F10>", debug_trigger(function() require("dap").step_over() end),         { silent = true })
+keymap.set({ "i", "n", "v" }, "<F11>", debug_trigger(function() require("dap").step_into() end),         { silent = true })
+keymap.set({ "i", "n", "v" }, "<F12>", debug_trigger(function() require("dap").step_out() end),          { silent = true })
